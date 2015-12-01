@@ -1,20 +1,41 @@
 package xinge
 
-func PushSingleAndroidDevice(accessId int, secretKey, deviceToken, title, content string,custom map[string]string) Response {
-	client := NewClient(accessId, secretKey)
+func (c *Client)PushSingleAndroidDevice(deviceToken, title, content string,custom map[string]string) Response {
+
 	message := DefaultMessage(title,content)
 
 	message.SetCustom(custom)
-	res := client.PushSingleDevice(1,deviceToken, message)
-	return res
+	return c.PushSingleDevice(Android,deviceToken, message)
 
 }
 
+func (c *Client)PushSingleIosDevice(deviceToken ,title string,badge int,custom map[string]string) Response {
 
-func PushSingleIosDevice(accessId int, secretKey, deviceToken, title string,custom map[string]string) Response {
-	client := NewClient(accessId, secretKey)
-	message := DefaultIosMessage(title,1)
+	message := DefaultIosMessage(title,badge)
 	message.Custom = custom
-	res := client.PushSingleDevice(2,deviceToken, message)
-	return res
+	return c.PushSingleDevice(Ios,deviceToken, message)
+
 }
+
+func (c *Client)PushSingleAndroidAccount(account,title,content string,custom map[string]string) Response{
+	message := DefaultMessage(title,content)
+	message.SetCustom(custom)
+	return c.PushSingleAccount(Android,account,message)
+}
+func (c *Client)PushSingleIosAccount(account,title string,badge int,custom map[string]string) Response{
+	message := DefaultIosMessage(title,badge)
+	message.Custom = custom
+	return c.PushSingleAccount(Ios,account,message)
+}
+func (c *Client)PushAndroidAccountL(accountlist []string,title,content string,custom map[string]string) Response{
+	message := DefaultMessage(title,content)
+	message.SetCustom(custom)
+	return c.PushAccountList(Android,accountlist,message)
+}
+func (c *Client)PushIosAccountL(accountlist []string,title string,badge int,custom map[string]string) Response{
+	message := DefaultIosMessage(title,badge)
+	message.Custom = custom
+	return c.PushAccountList(Ios,accountlist,message)
+}
+
+//todo

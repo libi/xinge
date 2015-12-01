@@ -9,50 +9,65 @@ var (
 	accessId    int    = 2100146994
 	secretKey   string = "d7e0de4cc42f6a33b84d0beaeabee1fe"
 	deviceToken string = "e5e665ed947c8ba14a8ea78fa5b9b7dbc5ffed2e"
+	account string = "uid123"
+	account_list []string = []string{"uid2","uid123","uid21"}
+	client *Client = NewClient(accessId,secretKey)
 )
 
 func TestStaticPushSingleADevice(t *testing.T) {
-	res := PushSingleAndroidDevice(accessId, secretKey, deviceToken, "老友提醒", "今天晚上没事的话聚聚呗",nil)
+	res := client.PushSingleAndroidDevice(deviceToken, "有人偷了你的菜。", "",nil)
 	if res.Code != 0 {
 		t.Errorf("send failure, error is %s", res.Msg)
 	}else{
 		fmt.Println(res)
-		fmt.Println("send success")
+		fmt.Println("1 success")
 	}
 }
 func TestStaticPushSingleIosDevice(t *testing.T) {
-	res := PushSingleIosDevice(accessId, secretKey, deviceToken, "老友提醒",nil)
+	res := client.PushSingleIosDevice(deviceToken, "有人偷了你的菜。",2,nil)
 	if res.Code != 0 {
 		t.Errorf("send failure, error is %s", res.Msg)
 	}else{
 		fmt.Println(res)
-		fmt.Println("iossend success")
+		fmt.Println("2 success")
 	}
 }
 
-/*
-func TestPushSingleDevice(t *testing.T) {
-	client := NewClient(accessId, secretKey)
-	message := NewMessage()
-	message.Type = MESSAGE_TYPE_NOTIFICATION
-	message.Title = "message title"
-	message.Content = "message content ...."
-	message.ExpireTime = 86400
-	style := Style{BuilderId: 0, Ring: 1, Vibrate: 1, Clearable: 0, NId: 0}
-	action := ClickAction{}
-	action.ActionType = ACTION_TYPE_URL
-	action.Url = "http://www.baidu.com"
-	action.ConfirmOnUrl = 1
-	custom := map[string]string{"key1": "value1", "key2": "value2"}
-	message.SetStyle(style)
-	message.SetAction(action)
-	message.SetCustom(custom)
-	message.AddAcceptTime(TimeInterval{0, 0, 23, 59})
-	res := client.PushSingleDevice(deviceToken, message)
+func TestStaticPushSingleAaccount(t *testing.T){
+	res := client.PushSingleAndroidAccount(account, "有人偷了你的菜。","",nil)
 	if res.Code != 0 {
 		t.Errorf("send failure, error is %s", res.Msg)
 	}else{
-		fmt.Println("send success")
+		fmt.Println(res)
+		fmt.Println("3 success")
 	}
 }
-*/
+func TestStaticPushSingleIosaccount(t *testing.T){
+	res := client.PushSingleIosAccount(account, "有人偷了你的菜。",1,nil)
+	if res.Code != 0 {
+		t.Errorf("send failure, error is %s", res.Msg)
+	}else{
+		fmt.Println(res)
+		fmt.Println("4 success")
+	}
+}
+
+func TestStaticPushAAL(t *testing.T){
+	res := client.PushAndroidAccountL(account_list, "有人偷了你的菜。","",nil)
+	if res.Code != 0 {
+		t.Errorf("send failure, error is %s", res.Msg)
+	}else{
+		fmt.Println(res)
+		fmt.Println("5 success")
+	}
+}
+
+func TestStaticPushIosAL(t *testing.T){
+	res := client.PushIosAccountL(account_list, "有人偷了你的菜。",1,nil)
+	if res.Code != 0 {
+		t.Errorf("send failure, error is %s", res.Msg)
+	}else{
+		fmt.Println(res)
+		fmt.Println("6 success")
+	}
+}

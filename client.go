@@ -25,16 +25,16 @@ func (c *Client) PushSingleDevice(deviceType int,deviceToken string, message Com
 	return res
 }
 //推送给单个账户或别名
-func (c *Client) PushSingleAccount(deviceType int, account string, message Message) Response {
+func (c *Client) PushSingleAccount(deviceType int, account string, message CommonMessage) Response {
 	params := make(map[string]interface{})
 
-	params["account_list"] = account
+	params["account"] = account
 	params["message"] = string(message.XGjson())
 	res := c.push(deviceType,RESTAPI_PUSHSINGLEACCOUNT,params)
 	return res
 }
 //推送给多个账户 最多100个
-func (c *Client) PushAccountList(deviceType int, accountList []string, message Message) Response {
+func (c *Client) PushAccountList(deviceType int, accountList []string, message CommonMessage) Response {
 	params := make(map[string]interface{})
 
 	account_list,err := json.Marshal(accountList)
@@ -47,7 +47,7 @@ func (c *Client) PushAccountList(deviceType int, accountList []string, message M
 	return res
 }
 //推送给所有设备
-func (c *Client) PushAllDevices(deviceType int, message Message) Response {
+func (c *Client) PushAllDevices(deviceType int, message CommonMessage) Response {
 	params := make(map[string]interface{})
 
 	params["message"] = string(message.XGjson())
